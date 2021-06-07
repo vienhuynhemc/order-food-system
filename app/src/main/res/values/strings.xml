@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">OrderFoodOnline</string>
+    <string-array name="loai">
+        <item>Thức Ăn</item>
+        <item>Thức Uống</item>
+        <item>Hoa</item>
+        <item>Bánh kem</item>
+    </string-array>
+</resources>
