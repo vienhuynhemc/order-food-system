@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         anhXa();
         addEventViewFlipper();
         getdulieuloaisp();
-
     }
 
 
@@ -87,14 +86,14 @@ public class MainActivity extends AppCompatActivity {
         viewFlipper = findViewById(R.id.viewflipper);
         RecyclerViewLoaisp = findViewById(R.id.RecyclerViewLoaisp);
         mangloaisp = new ArrayList<Loaisp>();
-       loaispAdapter = new AdapterLoaisp(MainActivity.this,mangloaisp);
+        loaispAdapter = new AdapterLoaisp(MainActivity.this, mangloaisp);
         RecyclerViewLoaisp.setHasFixedSize(true);
         RecyclerViewLoaisp.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
         RecyclerViewLoaisp.setAdapter(loaispAdapter);
         if (mangGioHang != null) {
 
         } else {
-           mangGioHang = new ArrayList<com.example.orderfoodonline.model.gioHang>();
+            mangGioHang = new ArrayList<com.example.orderfoodonline.model.gioHang>();
         }
     }
 
