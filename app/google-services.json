@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1025715441141",
+    "project_id": "duandautien-15a59",
+    "storage_bucket": "duandautien-15a59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025715441141:android:cddc47a1d4bb580a3624bc",
+        "android_client_info": {
+          "package_name": "com.example.oderfoodonline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025715441141-kdno2ckeup0ovj1ipvd5coo6e8hmfhib.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0F4P0eHYBCpj_zA5vCbwU52MRCCwLOKc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025715441141-kdno2ckeup0ovj1ipvd5coo6e8hmfhib.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
