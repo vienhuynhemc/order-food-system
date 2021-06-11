@@ -7,23 +7,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.orderfoodonline.Server.Server;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Thongtintaikhoan extends AppCompatActivity {
     public static int Dangnhapthanhcong = 0;
@@ -88,43 +80,76 @@ public class Thongtintaikhoan extends AppCompatActivity {
     }
 
     private void LoginTaiKhoan() {
-        final RequestQueue requestQueue = Volley.newRequestQueue(Thongtintaikhoan.this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.dangnhap, new Response.Listener<String>() {
+//        final RequestQueue requestQueue = Volley.newRequestQueue(Thongtintaikhoan.this);
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, Server.dangnhap, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                try {
+//                    JSONObject jsonObject = new JSONObject(response);
+//                    String success = jsonObject.getString("success");
+//                    if (success.equals("1")) {
+//                        Toast.makeText(Thongtintaikhoan.this, "Đăng Nhập  thành công", Toast.LENGTH_SHORT).show();
+//                        Dangnhapthanhcong = 1;
+//                        Intent intent = new Intent(Thongtintaikhoan.this, MainActivity.class);
+//                        startActivity(intent);
+//                    } else if (success.equals("2")) {
+//                        Toast.makeText(Thongtintaikhoan.this, "Đăng Nhập  thành công", Toast.LENGTH_SHORT).show();
+//                        Dangnhapthanhcong = 2;
+//                        Intent intent1 = new Intent(Thongtintaikhoan.this, MainActivity.class);
+//                        startActivity(intent1);
+//                    } else if (success.equals("0")) {
+//                        Toast.makeText(Thongtintaikhoan.this, "Tài khoản Và mật khẩu không đúng", Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (JSONException e) {
+//
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//            }
+//        }) {
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                HashMap<String, String> params = new HashMap<>();
+//                params.put("sdt", sodienthoai);
+//                params.put("matkhau", matkhau);
+//                return params;
+//            }
+//        };
+//        requestQueue.add(stringRequest);
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference root = firebaseDatabase.getReference();
+        DatabaseReference tai_khoan = root.child("tai_khoan");
+        tai_khoan.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
-                    if (success.equals("1")) {
-                        Toast.makeText(Thongtintaikhoan.this, "Đăng Nhập  thành công", Toast.LENGTH_SHORT).show();
-                        Dangnhapthanhcong = 1;
-                        Intent intent = new Intent(Thongtintaikhoan.this, MainActivity.class);
-                        startActivity(intent);
-                    } else if (success.equals("2")) {
-                        Toast.makeText(Thongtintaikhoan.this, "Đăng Nhập  thành công", Toast.LENGTH_SHORT).show();
-                        Dangnhapthanhcong = 2;
-                        Intent intent1 = new Intent(Thongtintaikhoan.this, MainActivity.class);
-                        startActivity(intent1);
-                    } else if (success.equals("0")) {
-                        Toast.makeText(Thongtintaikhoan.this, "Tài khoản Và mật khẩu không đúng", Toast.LENGTH_SHORT).show();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int oke = 0;
+                for (DataSnapshot d : snapshot.getChildren()) {
+                    if (d.getKey().equals(sodienthoai) && d.child("mat_khau").getValue().toString().equals(matkhau)) {
+                        oke = Integer.parseInt(d.child("cap_do").getValue().toString());
+                        break;
                     }
-                } catch (JSONException e) {
-
+                }
+                if (oke == 1) {
+                    Toast.makeText(Thongtintaikhoan.this, "Đăng Nhập  thành công", Toast.LENGTH_SHORT).show();
+                    Dangnhapthanhcong = 1;
+                    Intent intent = new Intent(Thongtintaikhoan.this, MainActivity.class);
+                    startActivity(intent);
+                } else if (oke == 2) {
+                    Toast.makeText(Thongtintaikhoan.this, "Đăng Nhập  thành công", Toast.LENGTH_SHORT).show();
+                    Dangnhapthanhcong = 2;
+                    Intent intent1 = new Intent(Thongtintaikhoan.this, MainActivity.class);
+                    startActivity(intent1);
+                } else {
+                    Toast.makeText(Thongtintaikhoan.this, "Tài khoản Và mật khẩu không đúng", Toast.LENGTH_SHORT).show();
                 }
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
-        }) {
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> params = new HashMap<>();
-                params.put("sdt", sodienthoai);
-                params.put("matkhau", matkhau);
-                return params;
-            }
-        };
-        requestQueue.add(stringRequest);
+        });
     }
 
 
