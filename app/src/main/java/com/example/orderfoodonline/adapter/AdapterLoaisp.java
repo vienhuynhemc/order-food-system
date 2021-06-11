@@ -2,13 +2,14 @@ package com.example.orderfoodonline.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.orderfoodonline.FoodSanPham;
 import com.example.orderfoodonline.GioHang;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 public class AdapterLoaisp extends RecyclerView.Adapter<AdapterLoaisp.itemHolder> {
     Context context;
-    ArrayList<Loaisp>arrayListLoaisp;
+    ArrayList<Loaisp> arrayListLoaisp;
     private static AdapterView.OnItemClickListener listener;
 
     public AdapterLoaisp(Context context, ArrayList<Loaisp> arrayListLoaisp) {
@@ -33,17 +34,16 @@ public class AdapterLoaisp extends RecyclerView.Adapter<AdapterLoaisp.itemHolder
 
     @Override
     public itemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.row_loaisp,null);
-        itemHolder itemHolder=new itemHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_loaisp, null);
+        itemHolder itemHolder = new itemHolder(view);
         return itemHolder;
     }
 
     @Override
     public void onBindViewHolder(itemHolder holder, int position) {
-        Loaisp loaisp = new Loaisp();
-        loaisp = arrayListLoaisp.get(position);
-        holder.Tenloaisp.setText(((Loaisp) loaisp).getTenLoaiSanPham());
-        Picasso.get().load( loaisp.getHinhAnhLoaiSanPham()).centerCrop().resize(150,150).into(holder.Imageloaisp);
+        Loaisp loaisp = arrayListLoaisp.get(position);
+        holder.Tenloaisp.setText(loaisp.getTenLoaiSanPham());
+        Picasso.get().load(loaisp.getHinhAnhLoaiSanPham()).centerCrop().resize(150, 150).into(holder.Imageloaisp);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class AdapterLoaisp extends RecyclerView.Adapter<AdapterLoaisp.itemHolder
     }
 
 
-    public class itemHolder extends RecyclerView.ViewHolder{
+    public class itemHolder extends RecyclerView.ViewHolder {
         public ImageView Imageloaisp;
         public TextView Tenloaisp;
 
@@ -66,57 +66,57 @@ public class AdapterLoaisp extends RecyclerView.Adapter<AdapterLoaisp.itemHolder
                     int i = arrayListLoaisp.get(getPosition()).getId();
                     switch (i) {
                         case 1: {
-                                Intent intent = new Intent(context, FoodSanPham.class);
-                                intent.putExtra("idloaisp", i);
-                                context.startActivity(intent);
-                            }
-                            break;
-
-                        case 2: {
-                            Intent intent = new Intent(context, FoodSanPham.class);
-                            intent.putExtra("idloaisp", i);
-                            context.startActivity(intent);
-                             }
-                          break;
-
-                        case 3: {
-                            Intent intent = new Intent(context, FoodSanPham.class);
-                            intent.putExtra("idloaisp", i);
-                            context.startActivity(intent);
-                        }
-                            break;
-
-                        case 4: {
                             Intent intent = new Intent(context, FoodSanPham.class);
                             intent.putExtra("idloaisp", i);
                             context.startActivity(intent);
                         }
                         break;
+// ?? Không hiểu người ta viết cái gì ở đây
+//                        case 2: {
+//                            Intent intent = new Intent(context, FoodSanPham.class);
+//                            intent.putExtra("idloaisp", i);
+//                            context.startActivity(intent);
+//                             }
+//                          break;
+//
+//                        case 3: {
+//                            Intent intent = new Intent(context, FoodSanPham.class);
+//                            intent.putExtra("idloaisp", i);
+//                            context.startActivity(intent);
+//                        }
+//                            break;
+//
+//                        case 4: {
+//                            Intent intent = new Intent(context, FoodSanPham.class);
+//                            intent.putExtra("idloaisp", i);
+//                            context.startActivity(intent);
+//                        }
+//                        break;
 
 
                         case -1: {
                             Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);
                         }
-                             break;
+                        break;
 
                         case -2: {
                             Intent intent = new Intent(context, Lienhe.class);
                             context.startActivity(intent);
                         }
-                             break;
+                        break;
 
                         case -3: {
                             Intent intent = new Intent(context, Thongtintaikhoan.class);
                             context.startActivity(intent);
                         }
-                            break;
+                        break;
 
                         case -4: {
                             Intent intent = new Intent(context, GioHang.class);
                             context.startActivity(intent);
                         }
-                             break;
+                        break;
                     }
                 }
             });

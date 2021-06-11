@@ -7,14 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".GioHang">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@android:color/holo_blue_dark"
         app:title="GIỎ HÀNG">
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
     <LinearLayout
         android:layout_weight="7"
         android:layout_width="match_parent"

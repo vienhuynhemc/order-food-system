@@ -1,28 +1,25 @@
 package com.example.orderfoodonline;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.orderfoodonline.Server.Server;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.orderfoodonline.adapter.AdapterLoaisp;
 import com.example.orderfoodonline.model.Loaisp;
 import com.example.orderfoodonline.model.gioHang;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -49,35 +46,50 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void getdulieuloaisp() {
-        final RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Server.duongdanloaisp, new Response.Listener<JSONArray>() {
+        // Của người ta
+//        final RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+//        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Server.duongdanloaisp, response -> {
+//            for (int i = 0; i < response.length(); i++) {
+//                try {
+//                    JSONObject object = response.getJSONObject(i);
+//                    id = object.getInt("id");
+//                    tenloaisp = object.getString("Tenloai");
+//                    hinhanhloaisp = object.getString("Imageloaisp");
+//                    mangloaisp.add(new Loaisp(id, tenloaisp, hinhanhloaisp));
+//                    loaispAdapter.notifyDataSetChanged();
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            mangloaisp.add(new Loaisp(-1, "Trang Chủ", "https://vietadsgroup.vn/Uploads/files/trangchu-la-gi.png"));
+//            mangloaisp.add(new Loaisp(-2, "Liên Hệ", "http://capnuocbenthanh.com/images/dtlienhe_1.jpg"));
+//            mangloaisp.add(new Loaisp(-3, "Thông Tin", "http://kinhtevadubao.vn/uploads/images/news/1515687283_news_10383.jpg"));
+//            mangloaisp.add(new Loaisp(-4, "Giỏ Hàng", "https://img.icons8.com/nolan/2x/add-shopping-cart.png"));
+//            loaispAdapter.notifyDataSetChanged();
+//        }, error -> {
+//        });
+//        requestQueue.add(jsonArrayRequest);
+        // Của tui real time
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference root = firebaseDatabase.getReference();
+        DatabaseReference trang_chu = root.child("trang_chu");
+        trang_chu.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject object = response.getJSONObject(i);
-                        id = object.getInt("id");
-                        tenloaisp = object.getString("Tenloai");
-                        hinhanhloaisp = object.getString("Imageloaisp");
-                        mangloaisp.add(new Loaisp(id, tenloaisp, hinhanhloaisp));
-                        loaispAdapter.notifyDataSetChanged();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mangloaisp.clear();
+                for (DataSnapshot d : snapshot.getChildren()) {
+                    mangloaisp.add(new Loaisp(Integer.parseInt(d.getKey()),
+                            d.child("ten_loai").getValue().toString(),
+                            d.child("hinh_anh").getValue().toString()));
+                    loaispAdapter.notifyDataSetChanged();
                 }
-                mangloaisp.add(new Loaisp(-1, "Trang Chủ", "https://vietadsgroup.vn/Uploads/files/trangchu-la-gi.png"));
-                mangloaisp.add(new Loaisp(-2, "Liên Hệ", "http://capnuocbenthanh.com/images/dtlienhe_1.jpg"));
-                mangloaisp.add(new Loaisp(-3, "Thông Tin", "http://kinhtevadubao.vn/uploads/images/news/1515687283_news_10383.jpg"));
-                mangloaisp.add(new Loaisp(-4, "Giỏ Hàng", "https://img.icons8.com/nolan/2x/add-shopping-cart.png"));
-
-                loaispAdapter.notifyDataSetChanged();
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        requestQueue.add(jsonArrayRequest);
+
     }
 
     private void anhXa() {

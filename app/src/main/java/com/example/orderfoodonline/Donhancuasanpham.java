@@ -1,20 +1,18 @@
 package com.example.orderfoodonline;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.orderfoodonline.Admin.Admindanhsachsp;
 import com.example.orderfoodonline.Server.Server;
 import com.example.orderfoodonline.adapter.Adapterdonhangcuakhachhang;
-import com.example.orderfoodonline.model.SanPham;
-import com.example.orderfoodonline.model.donhang;
 import com.example.orderfoodonline.model.donhangcuakhachhang;
 
 import org.json.JSONArray;
