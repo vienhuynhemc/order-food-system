@@ -43,8 +43,18 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.itemHold
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         holder.tvGiasanpham.setText("Giá :" + decimalFormat.format(sanPham.getGiasanpham()) + " Đ");
         Picasso.get().load(sanPham.getHinhanhsanpham()).centerCrop().resize(150, 150).into(holder.imgHinhAnhSanpham);
-        holder.tvTimestart.setText(sanPham.getTimestart() + "");
-        holder.tvTimeend.setText(sanPham.getTimeend() + "");
+        holder.tvTimestart.setText(coverTime(sanPham.getTimestart()));
+        holder.tvTimeend.setText(coverTime(sanPham.getTimeend()));
+    }
+
+    public String coverTime(int time) {
+        String result = "";
+        if(String.valueOf(time).length()==3){
+            result += String.valueOf(time).substring(0, 1) + ":" + String.valueOf(time).substring(1, 3);
+        }else if(String.valueOf(time).length()==4){
+            result += String.valueOf(time).substring(0, 2) + ":" + String.valueOf(time).substring(2, 4);
+        }
+        return result;
     }
 
     @Override
